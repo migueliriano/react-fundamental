@@ -1,6 +1,6 @@
 var React = require('react');
 var PropTypes = require('prop-types');
-var api = require('../utils/api');
+var api = require('../../utils/api');
 
 const LanguageItem = function (props){
     let {lang, selectedLang, updateLang} = props;

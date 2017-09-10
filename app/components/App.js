@@ -4,12 +4,7 @@ var Route = require('react-router-dom').Route;
 var Switch = require('react-router-dom').Switch;
 
 var Nav = require('./Nav');
-var Popular = require('./Popular');
-var Home = require('./Home');
-var Battle = require('./Battle');
-var NotFoundPage = require('./NotFoundPage');
-
-console.log(require('react-router-dom'));
+var Pages = require('./Pages');
 
 const App = function () {
     return (
@@ -17,10 +12,10 @@ const App = function () {
             <div className="container">
                 <Nav />
                 <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/battle' component={Battle} />
-                    <Route path='/popular' component={Popular} />
-                    <Route render={NotFoundPage} />
+                    <Route exact path='/' component={Pages.Home} />
+                    <Route path='/battle' component={Pages.Battle} />
+                    <Route path='/popular' component={Pages.Popular} />
+                    <Route render={Pages.NotFoundPage} />
                 </Switch>
             </div>
         </BrowserRouter>
