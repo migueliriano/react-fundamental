@@ -15,12 +15,6 @@ const LanguageItem = function (props){
     );
 }
 
-LanguageItem.propTypes = {
-    lang: PropTypes.string.isRequired,
-    selectedLang: PropTypes.string.isRequired,
-    updateLang: PropTypes.func.isRequired
-};
-
 const SelectLanguage = function (props) {
     let {selectedLanguage, updateLanguage} = props;
     let languages = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python', 'PHP'];
@@ -66,16 +60,6 @@ function RepoGrid (props) {
     </ul>
     )
 }
-console.log(PropTypes);
-RepoGrid.propTypes = {
-  repos: PropTypes.array.isRequired,
-}
-
-
-SelectLanguage.propTypes = {
-    selectedLanguage: PropTypes.string.isRequired,
-    updateLanguage: PropTypes.func.isRequired
-};
 
 class Popular extends React.Component {
 
@@ -106,7 +90,6 @@ class Popular extends React.Component {
             .then( (resp) => {
                 this.setState({repos: resp.data.items});
             });
-
     }
 
     render() {
@@ -123,10 +106,25 @@ class Popular extends React.Component {
                         repos = {this.state.repos}
                     />
                 }
-
             </div>
         )
     }
+};
+
+
+RepoGrid.propTypes = {
+  repos: PropTypes.array.isRequired,
+}
+
+SelectLanguage.propTypes = {
+    selectedLanguage: PropTypes.string.isRequired,
+    updateLanguage: PropTypes.func.isRequired
+};
+
+LanguageItem.propTypes = {
+    lang: PropTypes.string.isRequired,
+    selectedLang: PropTypes.string.isRequired,
+    updateLang: PropTypes.func.isRequired
 };
 
 module.exports = Popular;
