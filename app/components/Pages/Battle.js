@@ -1,5 +1,25 @@
 var React = require('react');
 var PropTypes = require('prop-types');
+var Link = require('react-router-dom').Link;
+
+const PlayerPreview = function (props) {
+    return (
+        <div>
+            <div className="column">
+                <img className="avatar" src={props.avatar} alt={"Avatar for" + props.username} />
+                <h2 className="username">
+                    @{props.username}
+                </h2>
+                <button
+                    className="reset"
+                    onClick={props.reset.bind(null, props.id)}
+                >
+                    Reset
+                </button>
+            </div>
+        </div>
+    )
+};
 
 class PlayerInput extends React.Component {
 
@@ -49,10 +69,10 @@ class Battle extends React.Component {
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleReset = this.handleReset.bind(this);
     }
 
     handleSubmit(id, username){
-        console.log(id);
 
         this.setState( () => {
             return {
@@ -62,24 +82,65 @@ class Battle extends React.Component {
         });
     }
 
+    handleReset(id){
+        this.setState( () => {
+            return {
+                [id + 'Name' ]: "",
+                [id + 'Image' ]: null
+            };
+        });
+    }
+
     render() {
+        var playerOneName = this.state.playerOneName;
+        var playerOneImage = this.state.playerOneImage;
+        var playerTwoName = this.state.playerTwoName;
+        var playerTwoImage = this.state.playerTwoImage;
+        var routeMatch = this.props.match;
+
         return (
             <div>
                 <div className='row'>
-                    {!this.state.playerOneName &&
+                    {!playerOneName &&
                         <PlayerInput
                             id='playerOne'
                             label='Player One'
                             onSubmit={this.handleSubmit}
                     />}
 
-                    {!this.state.playerTwoName &&
+                    {playerOneImage &&
+                        <PlayerPreview
+                            avatar={playerOneImage}
+                            username={playerOneName}
+                            reset={this.handleReset}
+                            id="playerOne"
+                    />}
+
+                    {!playerTwoName &&
                         <PlayerInput
                             id='playerTwo'
                             label='Player Two'
                             onSubmit={this.handleSubmit}
                     />}
+
+                    {playerTwoImage &&
+                        <PlayerPreview
+                            avatar={playerTwoImage}
+                            username={playerTwoName}
+                            reset={this.handleReset}
+                            id="playerTwo"
+                    />}
                 </div>
+                { playerOneImage && playerTwoImage &&
+                    <Link
+                        to={{
+                            pathname: routeMatch.url + '/results',
+                            search: 'playerOneName=' + playerOneName + '&playerTwoName=' + playerTwoName
+                        }}
+                        className='button'
+                    >
+                        Battle
+                    </Link>}
             </div>
         );
     };
@@ -89,6 +150,13 @@ PlayerInput.propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired
+};
+
+PlayerPreview.propTypes = {
+    avatar: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    reset: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired
 };
 
 module.exports = Battle;

@@ -13,7 +13,8 @@ const App = function () {
                 <Nav />
                 <Switch>
                     <Route exact path='/' component={Pages.Home} />
-                    <Route path='/battle' component={Pages.Battle} />
+                    <Route exact path='/battle' component={Pages.Battle} />
+                    <Route exact path='/battle/results' component={Pages.Result} />
                     <Route path='/popular' component={Pages.Popular} />
                     <Route render={Pages.NotFoundPage} />
                 </Switch>
